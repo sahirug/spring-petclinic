@@ -11,6 +11,13 @@ pipeline {
                 sh 'mvn clean install -U'
             }
         }
+        stage('ls stage') {
+            agent any
+            steps {
+                sh 'ls -la'
+                sh 'ls -la target'
+            }
+        }
         stage('Docker build') {
             agent any
             steps {
