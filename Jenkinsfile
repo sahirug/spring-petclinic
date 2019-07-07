@@ -11,17 +11,19 @@ pipeline {
                 sh 'mvn clean install -U'
             }
         }
-        stage('ls stage') {
-            agent any
-            steps {
-                sh 'ls -la'
-                sh 'ls -la target'
-            }
-        }
         stage('Docker build') {
             agent any
             steps {
                 sh 'docker build -t sahirug/spring-petclinic:latest .'
+            }
+        }
+        stage('Docker push') {
+            agent any
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'dockerhubPassword', usernameVariable: 'dockerhubUser')]) {
+                    sh "docker login -u ${env.dockerhubUser} -p ${env.dockerhubPassword}"
+                    sh 'docker push sahirug/spring-petclinic:latest'
+                }
             }
         }
     }
