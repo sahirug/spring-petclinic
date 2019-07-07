@@ -1,0 +1,3 @@
+# start docker container
+docker run -v /home/student/Desktop/jenkins_home:/var/jenkins_home -v /var/run/docker.sock:/var/run/docker.sock -v $(which docker):/usr/bin/docker --group-add 998 -p 8080:8080 \
+-p 50000:50000 -d --name jenkins jenkins/jenkins:lts
