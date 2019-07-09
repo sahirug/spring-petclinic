@@ -13,7 +13,7 @@ servers = [
     :box => "ubuntu/xenial64",
     :version => "20190627.0.0",
     :eth1 => "192.168.205.10",
-    :mem => "2048",
+    :mem => "1024",
     :cpu => "2"
   },
   {
@@ -22,18 +22,18 @@ servers = [
     :box => "ubuntu/xenial64",
     :version => "20190627.0.0",
     :eth1 => "192.168.205.11",
-    :mem => "1024",
+    :mem => "512",
     :cpu => "2"
   },
-  {
-    :name => "kube-node-2",
-    :type => "node",
-    :box => "ubuntu/xenial64",
-    :version => "20190627.0.0",
-    :eth1 => "192.168.205.12",
-    :mem => "1024",
-    :cpu => "2"
-  }
+  # {
+  #   :name => "kube-node-2",
+  #   :type => "node",
+  #   :box => "ubuntu/xenial64",
+  #   :version => "20190627.0.0",
+  #   :eth1 => "192.168.205.12",
+  #   :mem => "1024",
+  #   :cpu => "2"
+  # }
 ]
 
 $configureBox = <<-SCRIPT
@@ -81,7 +81,7 @@ EOF
 SCRIPT
 
 $configureMaster = <<-SCRIPT
-    # ip of this box
+  # ip of this box
   echo "[ ==== GET IP OF BOX ==== ]"
   IP_ADDR=`ifconfig enp0s8 | grep Mask | awk '{print $2}'| cut -f2 -d:`
 
