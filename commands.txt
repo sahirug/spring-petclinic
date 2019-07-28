@@ -1,3 +1,25 @@
 # start docker container
 docker run -v /home/student/Desktop/jenkins_home:/var/jenkins_home -v /var/run/docker.sock:/var/run/docker.sock -v $(which docker):/usr/bin/docker --group-add 998 -p 8080:8080 \
 -p 50000:50000 -d --name jenkins jenkins/jenkins:lts
+
+
+#install NFS
+	#file server	
+		sudo apt-get update
+		sudo apt install nfs-kernel-server -y
+		sudo mkdir -p /mnt/nfs/kubedata
+		sudo chown nobody:nogroup /mnt/nfs/kubedata
+		sudo chmod 777 /mnt/nfs/kubedata
+		sudo nano /etc/exports
+			/mnt/nfs/kubedata 	172.42.42.0/24(rw,sync,no_subtree_check)
+		sudo exportfs -a
+		sudo systemctl restart nfs-kernel-server
+		sudo ufw allow from 172.42.42.0/24 to any port nfs
+		sudo ufw status
+	#k8 node
+		sudo apt-get update
+		sudo apt-get install nfs-common -y
+		sudo mkdir -p /mnt/sharedfolder_client
+		sudo mount 192.168.100.131:/mnt/nfs/kubedata /mnt/sharedfolder_client
+#install helm
+
